@@ -1,0 +1,50 @@
+// 定义服务和消息
+
+syntax = "proto3";
+
+
+// 文件节点服务器
+service fileService {
+    rpc Upload(DataRequest) returns (SimpleReply) {}
+    rpc Download(SimpleRequest) returns (DataReply) {}
+    rpc Update(DataRequest) returns (SimpleReply) {}
+}
+
+
+// 目录服务器
+service directoryService {
+    rpc GetFileServer(SimpleRequest) returns (SimpleReply) {}
+    rpc GetSlaves(SimpleRequest) returns (SimpleReply) {}
+}
+
+
+// 锁服务器
+service lockService {
+    rpc Lock(SimpleRequest) returns (SimpleReply) {}
+    rpc Unlock(SimpleRequest) returns (SimpleReply) {}
+}
+
+
+// 普通应答，包含消息内容和标志位
+message SimpleReply {
+    bool flag = 1;
+    string text = 2;
+}
+
+// 普通请求，包含请求信息
+message SimpleRequest {
+    string text = 1;
+}
+
+// 带数据的应答，包含标志位、数据以及可能有的错误消息
+message DataReply {
+    bool flag = 1;
+    string text = 2;
+    string data = 3;
+}
+
+// 带数据的请求，包含消息内容和数据
+message DataRequest {
+    string text = 1;
+    string data = 2;
+}
