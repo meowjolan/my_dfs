@@ -29,6 +29,11 @@ class fileServiceStub(object):
         request_serializer=service__pb2.DataRequest.SerializeToString,
         response_deserializer=service__pb2.SimpleReply.FromString,
         )
+    self.Delete = channel.unary_unary(
+        '/fileService/Delete',
+        request_serializer=service__pb2.SimpleRequest.SerializeToString,
+        response_deserializer=service__pb2.SimpleReply.FromString,
+        )
 
 
 class fileServiceServicer(object):
@@ -56,6 +61,13 @@ class fileServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def Delete(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_fileServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -72,6 +84,11 @@ def add_fileServiceServicer_to_server(servicer, server):
       'Update': grpc.unary_unary_rpc_method_handler(
           servicer.Update,
           request_deserializer=service__pb2.DataRequest.FromString,
+          response_serializer=service__pb2.SimpleReply.SerializeToString,
+      ),
+      'Delete': grpc.unary_unary_rpc_method_handler(
+          servicer.Delete,
+          request_deserializer=service__pb2.SimpleRequest.FromString,
           response_serializer=service__pb2.SimpleReply.SerializeToString,
       ),
   }

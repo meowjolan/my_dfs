@@ -25,6 +25,7 @@ class FileServer(service_pb2_grpc.fileServiceServicer):
     DOWNLOAD_FAIL = "Downloading failed!\n"
     UPDATE_DONE = "Update file successfully!\n"
     UPDATE_FAIL = "Updating failed!\n"
+    DELETE_DONE = "Delete file successfully!\n"
     SERVER_ROOT = os.getcwd()
     BUCKET_LOCATION = SERVER_ROOT
     HOST = "0.0.0.0"
@@ -59,8 +60,13 @@ class FileServer(service_pb2_grpc.fileServiceServicer):
     def Update(self, request, context):
         # 更新服务器上的某个文件
         self._write_file(request.text, request.data)
-
         return service_pb2.SimpleReply(flag=True, text=self.UPDATE_DONE)
+
+    def Delete(self, request, context):
+        # 删除服务器上的文件
+        path = os.path.join(self.BUCKET_LOCATION, request.text)
+        os.system('rm %s' % path)
+        return service_pb2.SimpleReply(flag=True, text=self.DELETE_DONE)
 
     def _write_file(self, filename, data):
         # 给定文件名，将数据写入
@@ -71,7 +77,7 @@ class FileServer(service_pb2_grpc.fileServiceServicer):
     def _update_slaves(self, request):
         # 将更新请求转发给其他文件服务器节点
         slaves = self._get_slaves()
-        for address in slaves[:-1]:
+        for address in slaves:
             channel = grpc.insecure_channel(address)
             stub = service_pb2_grpc.fileServiceStub(channel)
             stub.Update(request)
@@ -83,7 +89,7 @@ class FileServer(service_pb2_grpc.fileServiceServicer):
         response = stub.GetSlaves(service_pb2.SimpleRequest(
             text='{}:{}'.format(self.HOST, self.PORT)))
 
-        return response.text.split('\n')
+        return response.text.split()
 
 
 def main():

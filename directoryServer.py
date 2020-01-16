@@ -22,7 +22,7 @@ from concurrent import futures
 
 class DirectoryServer(service_pb2_grpc.directoryServiceServicer):
     GET_RESPONSE = "PRIMARY_SERVER: %s\nPORT: %s\nFILENAME: %s\nSLAVE_STRING: %s\n"
-    SLAVE_HEADER = "%s:%s\n"
+    SLAVE_HEADER = "%s:%s "
     DATABASE = "Database/directories.db"
     PORT = 9001
     HOST = "0.0.0.0"
@@ -104,7 +104,7 @@ class DirectoryServer(service_pb2_grpc.directoryServiceServicer):
             for (host, port) in servers:
                 header = self.SLAVE_HEADER % (host, port)
                 return_string = return_string + header
-        return return_string
+        return return_string + '\n'
 
     def _create_dir(self, path, host):
         # 添加目录

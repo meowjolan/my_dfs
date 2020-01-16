@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rservice.proto\")\n\x0bSimpleReply\x12\x0c\n\x04\x66lag\x18\x01 \x01(\x08\x12\x0c\n\x04text\x18\x02 \x01(\t\"\x1d\n\rSimpleRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\"5\n\tDataReply\x12\x0c\n\x04\x66lag\x18\x01 \x01(\x08\x12\x0c\n\x04text\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\")\n\x0b\x44\x61taRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t2\x87\x01\n\x0b\x66ileService\x12&\n\x06Upload\x12\x0c.DataRequest\x1a\x0c.SimpleReply\"\x00\x12(\n\x08\x44ownload\x12\x0e.SimpleRequest\x1a\n.DataReply\"\x00\x12&\n\x06Update\x12\x0c.DataRequest\x1a\x0c.SimpleReply\"\x00\x32p\n\x10\x64irectoryService\x12/\n\rGetFileServer\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x12+\n\tGetSlaves\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x32_\n\x0blockService\x12&\n\x04Lock\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x12(\n\x06Unlock\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rservice.proto\")\n\x0bSimpleReply\x12\x0c\n\x04\x66lag\x18\x01 \x01(\x08\x12\x0c\n\x04text\x18\x02 \x01(\t\"\x1d\n\rSimpleRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\"5\n\tDataReply\x12\x0c\n\x04\x66lag\x18\x01 \x01(\x08\x12\x0c\n\x04text\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\t\")\n\x0b\x44\x61taRequest\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x02 \x01(\t2\xb1\x01\n\x0b\x66ileService\x12&\n\x06Upload\x12\x0c.DataRequest\x1a\x0c.SimpleReply\"\x00\x12(\n\x08\x44ownload\x12\x0e.SimpleRequest\x1a\n.DataReply\"\x00\x12&\n\x06Update\x12\x0c.DataRequest\x1a\x0c.SimpleReply\"\x00\x12(\n\x06\x44\x65lete\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x32p\n\x10\x64irectoryService\x12/\n\rGetFileServer\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x12+\n\tGetSlaves\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x32_\n\x0blockService\x12&\n\x04Lock\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x12(\n\x06Unlock\x12\x0e.SimpleRequest\x1a\x0c.SimpleReply\"\x00\x62\x06proto3')
 )
 
 
@@ -220,7 +220,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   serialized_start=190,
-  serialized_end=325,
+  serialized_end=367,
   methods=[
   _descriptor.MethodDescriptor(
     name='Upload',
@@ -249,6 +249,15 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
     output_type=_SIMPLEREPLY,
     serialized_options=None,
   ),
+  _descriptor.MethodDescriptor(
+    name='Delete',
+    full_name='fileService.Delete',
+    index=3,
+    containing_service=None,
+    input_type=_SIMPLEREQUEST,
+    output_type=_SIMPLEREPLY,
+    serialized_options=None,
+  ),
 ])
 _sym_db.RegisterServiceDescriptor(_FILESERVICE)
 
@@ -261,8 +270,8 @@ _DIRECTORYSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   serialized_options=None,
-  serialized_start=327,
-  serialized_end=439,
+  serialized_start=369,
+  serialized_end=481,
   methods=[
   _descriptor.MethodDescriptor(
     name='GetFileServer',
@@ -294,8 +303,8 @@ _LOCKSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=2,
   serialized_options=None,
-  serialized_start=441,
-  serialized_end=536,
+  serialized_start=483,
+  serialized_end=578,
   methods=[
   _descriptor.MethodDescriptor(
     name='Lock',

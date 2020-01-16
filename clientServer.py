@@ -84,6 +84,23 @@ class Client:
                 return False
         return True
 
+    def delete(self, filename):
+        # 文件删除操作，移除各个副本
+        request = self._get_directory(filename)
+        # 找到目录
+        params = request.text.splitlines()
+        server = params[0].split()[1]
+        port = int(params[1].split()[1])
+        open_file = params[2].split()[1]
+        slaves = (params[3].split()[1:])
+        # 删除过程要加锁
+        self._lock_file(filename)
+        self._remove_file("%s:%s" % (server, port), open_file)
+        for slave in slaves:
+            self._remove_file(slave, open_file)
+        self._unlock_file(filename)
+        return True
+
     def read(self, filename):
         # 读取打开的文件
         if filename in self.open_files.keys():
@@ -105,6 +122,13 @@ class Client:
             return True
         else:
             return False
+
+    def _remove_file(self, server, filename):
+        # 移除某个文件副本
+        channel = grpc.insecure_channel(server)
+        stub = service_pb2_grpc.fileServiceStub(channel)
+        reply = stub.Delete(service_pb2.SimpleRequest(text=filename))
+        return reply
 
     def _upload_file(self, server, filename):
         # 发送上传请求
@@ -188,6 +212,11 @@ def main():
         elif re.match(DELETE_REGEX, user_input.lower()):
             request = user_input.lower()
             file_name = request.split()[1]
+            if client.delete(file_name):
+                # 删除成功
+                print('Deleting file done!')
+            else:
+                print('Deleting file failed!')
             pass
         else:
             os.system(user_input)

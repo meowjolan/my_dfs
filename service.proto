@@ -8,6 +8,7 @@ service fileService {
     rpc Upload(DataRequest) returns (SimpleReply) {}
     rpc Download(SimpleRequest) returns (DataReply) {}
     rpc Update(DataRequest) returns (SimpleReply) {}
+    rpc Delete(SimpleRequest) returns (SimpleReply) {}
 }
 
 
